@@ -1,0 +1,6 @@
+<SampleStructure>
+<MessageId>[masked]</MessageId>
+<TransactionId>[transaction-id]</TransactionId>
+<Name>Lorem ipsum</Name>
+<Timestamp>2020-02-02T[masked]</Timestamp>
+</SampleStructure>

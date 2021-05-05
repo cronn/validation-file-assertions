@@ -1,0 +1,1 @@
+this will be content of ValidationFileSample_differentFileSuffixes_example1.txt

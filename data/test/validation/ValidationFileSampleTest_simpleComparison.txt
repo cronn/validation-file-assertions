@@ -1,0 +1,1 @@
+this will be content of /data/test/validation/ValidationFileSample_simpleComparison.txt

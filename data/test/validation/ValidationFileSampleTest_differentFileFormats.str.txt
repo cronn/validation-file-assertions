@@ -1,0 +1,1 @@
+SampleStructure{name='Lorem ipsum', messageId='fb8ca74b-c7a3-4031-8250-bec29280e9ad', transactionId=7047158660679727112, timestamp=2020-02-02T12:20:30}

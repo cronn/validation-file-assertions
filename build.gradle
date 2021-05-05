@@ -1,0 +1,65 @@
+plugins {
+	id 'java-library'
+	id 'maven-publish'
+}
+
+repositories {
+	mavenCentral()
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+compileJava.options.encoding = 'UTF-8'
+
+java {
+	withSourcesJar()
+
+	registerFeature('junit5Support') {
+		usingSourceSet(sourceSets.main)
+	}
+}
+
+dependencies {
+	junit5SupportImplementation "org.junit.jupiter:junit-jupiter-api:latest.release"
+	api "com.googlecode.java-diff-utils:diffutils:latest.release"
+	api "org.opentest4j:opentest4j:latest.release"
+
+	testImplementation "org.junit.jupiter:junit-jupiter:latest.release"
+	testImplementation "org.assertj:assertj-core:latest.release"
+
+	// Filter release candidates and beta versions
+	components.all { ComponentMetadataDetails details ->
+		if (details.id.version =~ /(?i).+[-.](CANDIDATE|RC|BETA|ALPHA|M\d+).*/) {
+			details.status = 'milestone'
+		}
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
+
+
+group = 'de.cronn'
+version = System.env.ARTIFACT_VERSION ?: 'SNAPSHOT'
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			groupId project.group
+			artifactId project.name
+			version project.version
+			from components.java
+		}
+	}
+}
+
+wrapper {
+	gradleVersion = "7.0"
+	distributionType = Wrapper.DistributionType.ALL
+}
+
+dependencyLocking {
+	lockAllConfigurations()
+}

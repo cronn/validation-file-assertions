@@ -1,0 +1,1 @@
+SampleStructure{name='Lorem ipsum', messageId=[masked], transactionId=[transaction-id], timestamp=2020-02-02T[masked]}
