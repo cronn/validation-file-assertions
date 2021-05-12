@@ -1,6 +1,7 @@
 plugins {
 	id 'java-library'
 	id 'maven-publish'
+	id 'signing'
 }
 
 repositories {
@@ -14,6 +15,7 @@ compileJava.options.encoding = 'UTF-8'
 
 java {
 	withSourcesJar()
+	withJavadocJar()
 
 	registerFeature('junit5Support') {
 		usingSourceSet(sourceSets.main)
@@ -51,8 +53,55 @@ publishing {
 			artifactId project.name
 			version project.version
 			from components.java
+
+			pom {
+				name = project.name
+				description = "File Based Assertions for Java"
+				url = "https://github.com/cronn/validation-file-assertions"
+
+				licenses {
+					license {
+						name = "The Apache Software License, Version 2.0"
+						url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+					}
+				}
+
+				developers {
+					developer {
+						name = "Radosław Postołowicz"
+						email = "radoslaw.postolowicz@cronn.de"
+					}
+				}
+
+				scm {
+					url = "https://github.com/cronn/validation-file-assertions"
+				}
+
+				versionMapping {
+					usage('java-api') {
+						fromResolutionOf('runtimeClasspath')
+					}
+					usage('java-runtime') {
+						fromResolutionResult()
+					}
+				}
+			}
+
 		}
 	}
+	repositories {
+		maven {
+			url "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2"
+			credentials {
+				username = project.hasProperty('nexusUsername') ? project.property('nexusUsername') : System.getenv('NEXUS_USERNAME')
+				password = project.hasProperty('nexusPassword') ? project.property('nexusPassword') : System.getenv('NEXUS_PASSWORD')
+			}
+		}
+	}
+}
+
+signing {
+	sign publishing.publications.mavenJava
 }
 
 wrapper {
