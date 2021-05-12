@@ -11,14 +11,12 @@ import de.cronn.assertions.validationfile.util.TestNameUtils;
  * <p>
  * Provides <i>test name</i> as default name of validation file.<br/>
  * This interface is an alternative for storing {@link TestInfo} in class field.
- * </p>
  *
  * <p>
  * Notes:
  * <ul>
  * <li>Parallel test execution <i>ExecutionMode.CONCURRENT</i> combined with <i>TestInstance.Lifecycle.PER_CLASS</i> is not supported.</li>
  * </ul>
- * </p>
  *
  * <p>
  * Example:<br/>
@@ -31,7 +29,6 @@ import de.cronn.assertions.validationfile.util.TestNameUtils;
  *   }
  * }
  * </code></pre>
- * </p>
  */
 public interface JUnit5ValidationFileAssertions extends ValidationFileAssertions {
 
