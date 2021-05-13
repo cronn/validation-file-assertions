@@ -57,8 +57,8 @@ testImplementation 'de.cronn:validation-file-assertions:{version}'
 
     `.gitignore`
     ```
-    data/output/
-    data/tmp/
+    data/test/output/
+    data/test/tmp/
     ```
 
 * Let your test class implement the `JUnit5ValidationFileAssertions` interface if you are using JUnit5, otherwise use `ValidationFileAssertions`
