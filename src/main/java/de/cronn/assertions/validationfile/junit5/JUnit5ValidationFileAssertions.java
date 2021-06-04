@@ -9,7 +9,7 @@ import de.cronn.assertions.validationfile.util.TestNameUtils;
 
 /**
  * <p>
- * Provides <i>test name</i> as default name of validation file.<br/>
+ * Provides <i>test name</i> as default name of validation file.<br>
  * This interface is an alternative for storing {@link TestInfo} in class field.
  *
  * <p>
@@ -19,7 +19,7 @@ import de.cronn.assertions.validationfile.util.TestNameUtils;
  * </ul>
  *
  * <p>
- * Example:<br/>
+ * Example:<br>
  * <i>MyTestClass.java</i>:
  * <pre><code class='java'>
  * class MyTestClass implements JUnit5ValidationFileAssertions {
