@@ -98,11 +98,11 @@ public final class FileBasedComparisonUtils {
 		write(content, TestData.tmpPath(fileName));
 	}
 
-	private static void write(String actual, Path path) {
+	public static void write(String actual, Path path) {
 		write(actual.getBytes(CHARSET), path);
 	}
 
-	private static void write(byte[] actual, Path path) {
+	public static void write(byte[] actual, Path path) {
 		try {
 			Files.createDirectories(path.getParent());
 			Files.write(path, actual, TRUNCATE_EXISTING, WRITE, CREATE);
