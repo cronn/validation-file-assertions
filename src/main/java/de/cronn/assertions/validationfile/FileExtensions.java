@@ -7,6 +7,7 @@ public enum FileExtensions implements FileExtension {
 	DIFF("diff"),
 	CSV("csv"),
 	MD("md"),
+	SQL("sql"),
 	;
 
 	private final String value;
