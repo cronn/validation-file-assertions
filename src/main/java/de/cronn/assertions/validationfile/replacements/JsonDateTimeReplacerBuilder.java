@@ -21,6 +21,11 @@ public class JsonDateTimeReplacerBuilder extends AbstractJsonReplacer<JsonDateTi
 		return this;
 	}
 
+	public JsonDateTimeReplacerBuilder withColonGroupRegex(String colonGroupRegex) {
+		this.colonGroupRegex = colonGroupRegex;
+		return this;
+	}
+
 	@Override
 	public ValidationNormalizer build() {
 		Objects.requireNonNull(key);
@@ -32,7 +37,7 @@ public class JsonDateTimeReplacerBuilder extends AbstractJsonReplacer<JsonDateTi
 	}
 
 	@Override
-	JsonDateTimeReplacerBuilder getThis() {
+	protected JsonDateTimeReplacerBuilder getThis() {
 		return this;
 	}
 

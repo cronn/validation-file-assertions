@@ -33,7 +33,7 @@ public class JsonReplacerBuilder extends AbstractJsonReplacer<JsonReplacerBuilde
 	}
 
 	@Override
-	JsonReplacerBuilder getThis() {
+	protected JsonReplacerBuilder getThis() {
 		return this;
 	}
 }

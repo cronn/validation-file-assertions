@@ -25,6 +25,34 @@ class JsonDateTimeReplacerBuilderTest {
 	}
 
 	@Test
+	void testReplaceDateTimeInJsonWithCustomColonGroupRegex_match() {
+		String json = "\"dateTime\": \"2017-09-04T15:39:31.31+02:00\"";
+		String colonGroupRegex = "(:\\s)";
+
+		ValidationNormalizer normalizer = new JsonDateTimeReplacerBuilder()
+			.withKey("dateTime").withColonGroupRegex(colonGroupRegex)
+			.withSourceFormat(ISO_OFFSET_DATE_TIME).withDestinationFormat(ISO_LOCAL_DATE).build();
+
+		String expected = "\"dateTime\": \"2017-09-04\"";
+		String actual = normalizer.normalize(json);
+
+		assertThat(actual).isEqualTo(expected);
+	}
+
+	@Test
+	void testReplaceDateTimeInJsonWithCustomColonGroupRegex_noMatch() {
+		String json = "\"dateTime\": \"2017-09-04T15:39:31.31+02:00\"";
+		String colonGroupRegex = "(\\s:\\s)";
+
+		ValidationNormalizer normalizer = new JsonDateTimeReplacerBuilder()
+			.withKey("dateTime").withColonGroupRegex(colonGroupRegex)
+			.withSourceFormat(ISO_OFFSET_DATE_TIME).withDestinationFormat(ISO_LOCAL_DATE).build();
+
+		String actual = normalizer.normalize(json);
+
+		assertThat(actual).isEqualTo(json);
+	}
+	@Test
 	void testGetThis() throws Exception {
 		JsonDateTimeReplacerBuilder jsonDateTimeReplacerBuilder = new JsonDateTimeReplacerBuilder();
 		assertThat(jsonDateTimeReplacerBuilder.getThis()).isEqualTo(jsonDateTimeReplacerBuilder);
