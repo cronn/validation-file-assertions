@@ -9,6 +9,10 @@ public interface ValidationFileAssertions {
 
 	String getTestName();
 
+	default DirsConfig dirsConfig() {
+		return DirsConfig.DEFAULT;
+	}
+
 	default String getValidationFileName(String baseName, FileExtension extension) {
 		return baseName + "." + extension.asString();
 	}
@@ -28,11 +32,11 @@ public interface ValidationFileAssertions {
 		FailedAssertionHandler failedAssertionsCollector = failedAssertionHandler();
 		if (failedAssertionsCollector != null) {
 			failedAssertionsCollector.executeAndHandleFailedAssertion(() -> {
-				FileBasedComparisonUtils.compareActualWithFileHidden(actualOutput, filename, normalizer);
+				FileBasedComparisonUtils.compareActualWithFileHidden(actualOutput, filename, normalizer, dirsConfig());
 				return null;
 			});
 		} else {
-			FileBasedComparisonUtils.compareActualWithFileHidden(actualOutput, filename, normalizer);
+			FileBasedComparisonUtils.compareActualWithFileHidden(actualOutput, filename, normalizer, dirsConfig());
 		}
 	}
 

@@ -3,8 +3,8 @@ package de.cronn.assertions.validationfile.junit5;
 import static de.cronn.assertions.validationfile.junit5.ValidationFileSupport.*;
 import static org.assertj.core.api.Assertions.*;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
@@ -24,12 +24,11 @@ class ValidationFileSupportExtensionTest {
 
 	@TestFactory
 	Collection<DynamicTest> dynamicTests() {
-		return Arrays.asList(
+		return Collections.singletonList(
 			DynamicTest.dynamicTest("dynamic test", () ->
-				assertThat(validationFileAssertions().getTestName()).isNull()),
-			DynamicTest.dynamicTest("other dynamic test", () ->
-				assertThat(validationFileAssertions().getTestName()).isNull())
-		);
+				assertThatThrownBy(() -> validationFileAssertions().getTestName())
+					.isInstanceOf(IllegalStateException.class)
+					.hasMessageContaining("No assertions for test run. Didn't you forgot to annotate with @WithValidationFileSupport or nested/dynamic testcase")));
 	}
 
 }

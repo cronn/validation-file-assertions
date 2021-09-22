@@ -9,20 +9,20 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.cronn.assertions.validationfile.TestData;
+import de.cronn.assertions.validationfile.DirsConfig;
 
 public class ValidationFilesTestHelper extends CleanupValidationFilesAfterAllTests {
 
 	private static final Charset CHARSET = StandardCharsets.UTF_8;
 
 	public void copyOutputToValidation(String validationFileName) throws IOException {
-		Path source = TestData.outputPath(validationFileName);
-		Path target = TestData.validationFilePath(validationFileName);
+		Path source = DirsConfig.DEFAULT.outputPath(validationFileName);
+		Path target = DirsConfig.DEFAULT.validationFilePath(validationFileName);
 		Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 	}
 
 	public List<String> linesDiffOutputValidation(String validationFileName) throws IOException {
-		return linesDiff(TestData.outputPath(validationFileName), TestData.validationFilePath(validationFileName));
+		return linesDiff(DirsConfig.DEFAULT.outputPath(validationFileName), DirsConfig.DEFAULT.validationFilePath(validationFileName));
 	}
 
 	public List<String> linesDiff(Path path1, Path path2) throws IOException {
