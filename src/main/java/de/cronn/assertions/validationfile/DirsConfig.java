@@ -6,16 +6,20 @@ import java.nio.file.Paths;
 public interface DirsConfig {
 	Path base();
 
+	default Path relative() {
+		return Paths.get("");
+	}
+
 	default Path validation() {
-		return base().resolve("validation");
+		return base().resolve("validation").resolve(relative());
 	}
 
 	default Path output() {
-		return base().resolve("output");
+		return base().resolve("output").resolve(relative());
 	}
 
 	default Path tmp() {
-		return base().resolve("tmp");
+		return base().resolve("tmp").resolve(relative());
 	}
 
 	default Path validationFilePath(String fileName) {

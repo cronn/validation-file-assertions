@@ -10,4 +10,5 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @Retention(RUNTIME)
 public @interface WithValidationFileSupport {
 	String base() default "data/test";
+	boolean reflectPackageStructure() default false;
 }

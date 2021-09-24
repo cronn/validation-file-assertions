@@ -4,6 +4,7 @@ import static de.cronn.assertions.validationfile.junit5.ValidationFileSupport.*;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -18,15 +19,33 @@ import de.cronn.assertions.validationfile.ValidationFileAssertions;
 class ValidationFileSupportExtension implements InvocationInterceptor {
 	@Override
 	public void interceptTestMethod(Invocation<Void> invocation, ReflectiveInvocationContext<Method> invocationContext, ExtensionContext extensionContext) throws Throwable {
-		String testName = extensionContext.getTestClass().map(Class::getSimpleName).orElse("UNKNOWN") + "_"
+		Optional<Class<?>> testClassIfProvided = extensionContext.getTestClass();
+
+		String testName = testClassIfProvided.map(Class::getSimpleName).orElse("UNKNOWN") + "_"
 			+ extensionContext.getTestMethod().map(Method::getName).orElse("UNKNOWN");
 
-		DirsConfig dirsConfig = invocationContext.getTarget()
+		Optional<DirsConfig> configFromAnnotation = invocationContext.getTarget()
 			.map(Object::getClass)
 			.flatMap(this::findAnnotation)
-			.map(WithValidationFileSupport::base)
-			.map(Paths::get)
-			.map(p -> (DirsConfig) () -> p)
+			.map(a -> new DirsConfig() {
+				@Override
+				public Path base() {
+					return Paths.get(a.base());
+				}
+
+				@Override
+				public Path relative() {
+					Optional<Path> p = Optional.empty();
+					if (a.reflectPackageStructure()) {
+						 p = testClassIfProvided
+							.map(Class::getPackage)
+							.map(aPackage -> Paths.get("", aPackage.getName().split("\\.")));
+					}
+					return p.orElse(DirsConfig.super.relative());
+				}
+			});
+
+		DirsConfig dirsConfig = configFromAnnotation
 			.orElse(DirsConfig.DEFAULT);
 
 		storeAssertions(new ValidationFileAssertions() {
