@@ -1,6 +1,7 @@
 [![CI](https://github.com/cronn/validation-file-assertions/workflows/CI/badge.svg)](https://github.com/cronn/validation-file-assertions/actions)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.cronn/validation-file-assertions/badge.svg)](http://maven-badges.herokuapp.com/maven-central/de.cronn/validation-file-assertions)
 [![Apache 2.0](https://img.shields.io/github/license/cronn/validation-file-assertions.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![Valid Gradle Wrapper](https://github.com/cronn/validation-file-assertions/workflows/Validate%20Gradle%20Wrapper/badge.svg)](https://github.com/cronn/validation-file-assertions/actions/workflows/gradle-wrapper-validation.yml)
 
 # "validation-file-assertions" – File Based Assertions for Java
 
