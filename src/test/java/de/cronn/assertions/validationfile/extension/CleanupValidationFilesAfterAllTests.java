@@ -15,7 +15,7 @@ import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
-import de.cronn.assertions.validationfile.TestData;
+import de.cronn.assertions.validationfile.DirsConfig;
 
 public class CleanupValidationFilesAfterAllTests implements BeforeAllCallback, AfterAllCallback {
 
@@ -50,9 +50,9 @@ public class CleanupValidationFilesAfterAllTests implements BeforeAllCallback, A
 
 	Set<Path> collectAllFiles() throws IOException {
 		Set<Path> files = new LinkedHashSet<>();
-		files.addAll(listFiles(TestData.TEST_VALIDATION_DATA_DIR));
-		files.addAll(listFiles(TestData.TEST_OUTPUT_DATA_DIR));
-		files.addAll(listFiles(TestData.TEST_TEMPORARY_DATA_DIR));
+		files.addAll(listFiles(DirsConfig.DEFAULT.validation()));
+		files.addAll(listFiles(DirsConfig.DEFAULT.output()));
+		files.addAll(listFiles(DirsConfig.DEFAULT.tmp()));
 		return files;
 	}
 
