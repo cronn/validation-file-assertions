@@ -84,6 +84,22 @@ public interface ValidationFileAssertions {
 		assertWithFile(actualJsonString, validationNormalizer, FileExtensions.JSON);
 	}
 
+	default void assertWithJson5File(String actualJsonString) {
+		assertWithFile(actualJsonString, FileExtensions.JSON5);
+	}
+
+	default void assertWithJson5FileWithSuffix(String actualJsonString, String suffix) {
+		assertWithFileWithSuffix(actualJsonString, suffix, FileExtensions.JSON5);
+	}
+
+	default void assertWithJson5FileWithSuffix(String actualJsonString, ValidationNormalizer validationNormalizer, String suffix) {
+		assertWithFileWithSuffix(actualJsonString, validationNormalizer, suffix, FileExtensions.JSON5);
+	}
+
+	default void assertWithJson5File(String actualJsonString, ValidationNormalizer validationNormalizer) {
+		assertWithFile(actualJsonString, validationNormalizer, FileExtensions.JSON5);
+	}
+
 	default void assertWithXmlFile(String actualXmlString) {
 		assertWithFile(actualXmlString, FileExtensions.XML);
 	}
