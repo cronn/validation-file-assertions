@@ -4,6 +4,7 @@ import static de.cronn.assertions.validationfile.normalization.StringNormalizer.
 import static java.nio.file.StandardOpenOption.*;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -13,7 +14,6 @@ import java.util.regex.Pattern;
 
 import de.cronn.assertions.validationfile.FileBasedComparisonFailure;
 import de.cronn.assertions.validationfile.TestData;
-import de.cronn.assertions.validationfile.exception.RuntimeIOException;
 import de.cronn.assertions.validationfile.normalization.ValidationNormalizer;
 
 public final class FileBasedComparisonUtils {
@@ -72,7 +72,7 @@ public final class FileBasedComparisonUtils {
 		try {
 			return normalizeLineEndings(new String(Files.readAllBytes(validation), CHARSET));
 		} catch (IOException e) {
-			throw new RuntimeIOException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -107,7 +107,7 @@ public final class FileBasedComparisonUtils {
 			Files.createDirectories(path.getParent());
 			Files.write(path, actual, TRUNCATE_EXISTING, WRITE, CREATE);
 		} catch (IOException e) {
-			throw new RuntimeIOException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
