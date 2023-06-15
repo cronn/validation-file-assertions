@@ -9,6 +9,7 @@ public enum FileExtensions implements FileExtension {
 	CSV("csv"),
 	MD("md"),
 	SQL("sql"),
+	HTML("html"),
 	;
 
 	private final String value;
