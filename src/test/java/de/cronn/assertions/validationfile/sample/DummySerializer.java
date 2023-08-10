@@ -1,12 +1,23 @@
 package de.cronn.assertions.validationfile.sample;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.junit.platform.commons.util.ReflectionUtils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 final class DummySerializer {
+
+	static ObjectMapper objectMapper = new ObjectMapper()
+		.registerModule(new JavaTimeModule())
+		.setDateFormat(new StdDateFormat())
+		.setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_CAMEL_CASE);
 
 	private DummySerializer() {
 	}
@@ -20,10 +31,8 @@ final class DummySerializer {
 		return header + "\n" + values;
 	}
 
-	static String toJsonString(Object obj) {
-		return properties(obj).entrySet().stream()
-			.map(entry -> String.format("\"%s\" : \"%s\"", entry.getKey(), entry.getValue()))
-			.collect(Collectors.joining(",\n", "{\n", "\n}"));
+	static String toJsonString(Object obj) throws IOException {
+		return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
 	}
 
 	static String toXmlString(Object obj) {

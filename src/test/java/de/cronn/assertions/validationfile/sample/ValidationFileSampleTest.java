@@ -43,7 +43,7 @@ class ValidationFileSampleTest implements JUnit5ValidationFileAssertions {
 
 		assertWithJsonFile(DummySerializer.toJsonString(sampleStructure), ValidationNormalizer.combine(
 			Replacer.forJson().withKey("MessageId").build(),
-			Replacer.forJson().withKey("TransactionId").withValue("\\d+").withReplacement("[transaction-id]").build(),
+			Replacer.forJson().withKey("TransactionId").withRawValue("\\d+").withReplacement("[transaction-id]").build(),
 			Replacer.forJsonDateTime().withKey("Timestamp").withSourceFormat(ISO_DATE_TIME).withDestinationFormat(normalizedIsoLocalDate()).build()
 		));
 	}
