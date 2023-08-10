@@ -1,6 +1,6 @@
 {
-"MessageId" : "[masked]",
-"TransactionId" : "[transaction-id]",
-"Name" : "Lorem ipsum",
-"Timestamp" : "2020-02-02T[masked]"
+  "Name" : "Lorem ipsum",
+  "MessageId" : "[masked]",
+  "TransactionId" : "[transaction-id]",
+  "Timestamp" : "2020-02-02T[masked]"
 }

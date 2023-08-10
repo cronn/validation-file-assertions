@@ -29,7 +29,9 @@ dependencies {
 
 	testImplementation "org.junit.jupiter:junit-jupiter:latest.release"
 	testImplementation "org.assertj:assertj-core:latest.release"
-
+	testImplementation "com.fasterxml.jackson.core:jackson-databind"
+	testImplementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+	testImplementation platform("com.fasterxml.jackson:jackson-bom:latest.release")
 	// Filter release candidates and beta versions
 	components.all { ComponentMetadataDetails details ->
 		if (details.id.version =~ /(?i).+[-.](CANDIDATE|RC|BETA|ALPHA|M\d+).*/) {
