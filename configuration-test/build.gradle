@@ -1,0 +1,35 @@
+plugins {
+	id 'java'
+}
+
+group = 'de.cronn'
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+compileJava.options.encoding = 'UTF-8'
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    implementation project(':')
+
+    testImplementation "org.junit.jupiter:junit-jupiter:latest.release"
+    testImplementation "org.assertj:assertj-core:latest.release"
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+dependencyLocking {
+    lockAllConfigurations()
+}

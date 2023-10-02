@@ -70,6 +70,20 @@ testImplementation 'de.cronn:validation-file-assertions:{version}'
 
 * Pick suitable `assertWithFile` method and enjoy your first validation file assertion.
 
+### Configurable validation files directory path
+* Implement `de.cronn.assertions.validationfile.config.Configure` and override method `getDataDirectory()` with path to desired location
+
+* Register implemented configuration by creating file with fully qualified class name for example:
+```
+/Resources/META-INF/services/de.cronn.assertions.validationfile.config.Configuration
+```
+
+with content
+
+```
+com.demo.config.PathConfiguration
+```
+
 ### See also
 
 * [Intellij plugin for validation file comparison][intellij_plugin]
