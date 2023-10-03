@@ -36,7 +36,7 @@ class ValidationFileAssertionsTest_OverrideValidationFileName implements Validat
 	}
 
 	@Test
-	void assertValidationFileName() throws Exception {
+	void assertValidationFileName() {
 		Path file = TestData.TEST_VALIDATION_DATA_DIR.resolve(
 			"de/cronn/assertions/validationfile/ValidationFileAssertionsTest_OverrideValidationFileName_assertValidationFileName.txt");
 
