@@ -11,8 +11,8 @@ targetCompatibility = JavaVersion.VERSION_1_8
 compileJava.options.encoding = 'UTF-8'
 
 java {
-    withSourcesJar()
-    withJavadocJar()
+	withSourcesJar()
+	withJavadocJar()
 }
 
 repositories {
@@ -20,10 +20,10 @@ repositories {
 }
 
 dependencies {
-    implementation project(':')
+	implementation project(':')
 
-    testImplementation "org.junit.jupiter:junit-jupiter:latest.release"
-    testImplementation "org.assertj:assertj-core:latest.release"
+	testImplementation "org.junit.jupiter:junit-jupiter:latest.release"
+	testImplementation "org.assertj:assertj-core:latest.release"
 }
 
 tasks.named('test') {
@@ -31,5 +31,5 @@ tasks.named('test') {
 }
 
 dependencyLocking {
-    lockAllConfigurations()
+	 lockAllConfigurations()
 }
