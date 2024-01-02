@@ -5,6 +5,7 @@ public enum FileExtensions implements FileExtension {
 	XML("xml"),
 	JSON("json"),
 	JSON5("json5"),
+	YAML("yaml"),
 	DIFF("diff"),
 	CSV("csv"),
 	MD("md"),
