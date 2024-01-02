@@ -100,6 +100,22 @@ public interface ValidationFileAssertions {
 		assertWithFile(actualJsonString, validationNormalizer, FileExtensions.JSON5);
 	}
 
+	default void assertWithYamlFile(String actualJsonString) {
+		assertWithFile(actualJsonString, FileExtensions.YAML);
+	}
+
+	default void assertWithYamlFileWithSuffix(String actualJsonString, String suffix) {
+		assertWithFileWithSuffix(actualJsonString, suffix, FileExtensions.YAML);
+	}
+
+	default void assertWithYamlFileWithSuffix(String actualJsonString, ValidationNormalizer validationNormalizer, String suffix) {
+		assertWithFileWithSuffix(actualJsonString, validationNormalizer, suffix, FileExtensions.YAML);
+	}
+
+	default void assertWithYamlFile(String actualJsonString, ValidationNormalizer validationNormalizer) {
+		assertWithFile(actualJsonString, validationNormalizer, FileExtensions.YAML);
+	}
+
 	default void assertWithXmlFile(String actualXmlString) {
 		assertWithFile(actualXmlString, FileExtensions.XML);
 	}
