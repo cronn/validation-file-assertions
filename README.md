@@ -5,7 +5,7 @@
 
 # "validation-file-assertions" – File Based Assertions for Java
 
-### Idea shown by example
+## Idea shown by example
 
 Let’s consider the following test:
 
@@ -40,15 +40,15 @@ Any change to `"actual value"` will cause the test to fail and in this case the 
 We recommend using a good diffing tool, such as the built-in differ of IntelliJ or [Meld][meld], that allows you to diff the two directories `data/test/actual` vs `data/test/validation`.
 We also provide an [IntelliJ plugin][intellij_plugin] that diffs the two directories with one shortcut.
 
-### Quickstart
+## Quickstart
 * Add the dependency
 
-#### Gradle
+### Gradle
 ```gradle
 testImplementation 'de.cronn:validation-file-assertions:{version}'
 ```
 
-#### Maven
+### Maven
 ```xml
 <dependency>
     <groupId>de.cronn</groupId>
@@ -70,7 +70,7 @@ testImplementation 'de.cronn:validation-file-assertions:{version}'
 
 * Pick suitable `assertWithFile` method and enjoy your first validation file assertion.
 
-### Custom validation files directory
+## Custom validation files directory
 
 It is possible to customize path where validation files are stored, in order to do that:
 
@@ -78,7 +78,7 @@ It is possible to customize path where validation files are stored, in order to 
 
 * Register implemented configuration via Java Service Provider interface (namely: put fully qualified configuration class name in `resources/META-INF/services/de.cronn.assertions.validationfile.config.Configuration`)
 
-### See also
+## See also
 
 * [Intellij plugin for validation file comparison][intellij_plugin]
 
