@@ -78,9 +78,42 @@ It is possible to customize path where validation files are stored, in order to 
 
 * Register implemented configuration via Java Service Provider interface (namely: put fully qualified configuration class name in `resources/META-INF/services/de.cronn.assertions.validationfile.config.Configuration`)
 
+## Soft Assertions
+
+File based validation can be combined with [AssertJ’s soft assertions][assertj_soft_assertions].
+
+### Example
+
+```java
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
+
+import de.cronn.validationfile.junit5.JUnit5ValidationFileAssertions;
+
+@ExtendWith(SoftAssertionsExtension.class)
+class MyTest implements JUnit5ValidationFileAssertions {
+
+    @InjectSoftAssertions
+    private SoftAssertions softly;
+
+    @Override
+    public FailedAssertionHandler failedAssertionHandler() {
+        return callable -> softly.check(callable::call);
+    }
+
+    @Test
+    void myTestMethod() {
+        assertWithFileWithSuffix("actual value 1", "file1");
+        assertWithFileWithSuffix("actual value 2", "file2");
+    }
+}
+```
+
 ## See also
 
 * [Intellij plugin for validation file comparison][intellij_plugin]
 
 [meld]: https://meldmerge.org/
 [intellij_plugin]: https://plugins.jetbrains.com/plugin/12931-validation-file-comparison
+[assertj_soft_assertions]: https://assertj.github.io/doc/#assertj-core-soft-assertions
