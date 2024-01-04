@@ -8,6 +8,10 @@ public interface ValidationNormalizer {
 
 	String normalize(String source);
 
+	default ValidationNormalizer and(ValidationNormalizer otherNormalizer) {
+		return ValidationNormalizer.combine(this, otherNormalizer);
+	}
+
 	static ValidationNormalizer doNothing() {
 		return s -> s;
 	}
