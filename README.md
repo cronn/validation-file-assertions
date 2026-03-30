@@ -113,7 +113,9 @@ class MyTest implements JUnit5ValidationFileAssertions {
 ## See also
 
 * [Intellij plugin for validation file comparison][intellij_plugin]
+* [File snapshots for Playwright and Vitest][frontend_file_snapshots]
 
 [meld]: https://meldmerge.org/
 [intellij_plugin]: https://plugins.jetbrains.com/plugin/12931-validation-file-comparison
 [assertj_soft_assertions]: https://assertj.github.io/doc/#assertj-core-soft-assertions
+[frontend_file_snapshots]: https://github.com/cronn/file-snapshots
