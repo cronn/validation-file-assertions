@@ -44,6 +44,10 @@ test {
 	useJUnitPlatform()
 }
 
+javadoc {
+	options.addStringOption('Xdoclint:none', '-quiet')
+}
+
 
 group = 'de.cronn'
 version = System.env.ARTIFACT_VERSION ?: 'SNAPSHOT'
