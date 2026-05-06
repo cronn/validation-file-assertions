@@ -1,2 +1,0 @@
-rootProject.name = 'validation-file-assertions'
-include ':configuration-test'
