@@ -2,100 +2,98 @@ package de.cronn.assertions.validationfile.replacements;
 
 import static org.assertj.core.api.Assertions.*;
 
+import de.cronn.assertions.validationfile.normalization.ValidationNormalizer;
 import org.junit.jupiter.api.Test;
 
-import de.cronn.assertions.validationfile.normalization.ValidationNormalizer;
-
 class AbstractXmlReplacerBuilderTest {
-	static class XmlReplacerBuilderForTest extends AbstractXmlReplacerBuilder<XmlReplacerBuilderForTest> {
+  static class XmlReplacerBuilderForTest
+      extends AbstractXmlReplacerBuilder<XmlReplacerBuilderForTest> {
 
-		@Override
-		protected XmlReplacerBuilderForTest getThis() {
-			return this;
-		}
+    @Override
+    protected XmlReplacerBuilderForTest getThis() {
+      return this;
+    }
 
-		@Override
-		protected ValidationNormalizer build(String startTag, String endTag) {
-			throw new RuntimeException("not to be used");
-		}
-	}
+    @Override
+    protected ValidationNormalizer build(String startTag, String endTag) {
+      throw new RuntimeException("not to be used");
+    }
+  }
 
-	@Test
-	void testCreateEndTagWithoutNamespace() throws Exception {
-		XmlReplacerBuilderForTest xmlReplacerBuilderForTest = new XmlReplacerBuilderForTest();
-		xmlReplacerBuilderForTest.withElementName("elem");
+  @Test
+  void testCreateEndTagWithoutNamespace() throws Exception {
+    XmlReplacerBuilderForTest xmlReplacerBuilderForTest = new XmlReplacerBuilderForTest();
+    xmlReplacerBuilderForTest.withElementName("elem");
 
-		String endTag = xmlReplacerBuilderForTest.createEndTag();
+    String endTag = xmlReplacerBuilderForTest.createEndTag();
 
-		assertThat(endTag).isEqualTo("</elem>");
-	}
+    assertThat(endTag).isEqualTo("</elem>");
+  }
 
-	@Test
-	void testCreateEndTagWithNamespace() throws Exception {
-		XmlReplacerBuilderForTest xmlReplacerBuilder = new XmlReplacerBuilderForTest()
-			.withNamespace("ns")
-			.withElementName("elem");
+  @Test
+  void testCreateEndTagWithNamespace() throws Exception {
+    XmlReplacerBuilderForTest xmlReplacerBuilder =
+        new XmlReplacerBuilderForTest().withNamespace("ns").withElementName("elem");
 
-		String actual = xmlReplacerBuilder.createEndTag();
+    String actual = xmlReplacerBuilder.createEndTag();
 
-		assertThat(actual).isEqualTo("</ns:elem>");
-	}
+    assertThat(actual).isEqualTo("</ns:elem>");
+  }
 
-	@Test
-	void testCreateStartTagWithNamespace() throws Exception {
-		XmlReplacerBuilderForTest xmlReplacerBuilder = new XmlReplacerBuilderForTest()
-			.withNamespace("ns")
-			.withElementName("elem");
+  @Test
+  void testCreateStartTagWithNamespace() throws Exception {
+    XmlReplacerBuilderForTest xmlReplacerBuilder =
+        new XmlReplacerBuilderForTest().withNamespace("ns").withElementName("elem");
 
-		String startTag = xmlReplacerBuilder.createStartTag();
+    String startTag = xmlReplacerBuilder.createStartTag();
 
-		assertThat(startTag).isEqualTo("<ns:elem>");
-	}
+    assertThat(startTag).isEqualTo("<ns:elem>");
+  }
 
-	@Test
-	void testCreateStartTagWithoutNamespace() throws Exception {
-		XmlReplacerBuilderForTest xmlReplacerBuilder = new XmlReplacerBuilderForTest()
-			.withElementName("elem");
+  @Test
+  void testCreateStartTagWithoutNamespace() throws Exception {
+    XmlReplacerBuilderForTest xmlReplacerBuilder =
+        new XmlReplacerBuilderForTest().withElementName("elem");
 
-		String startTag = xmlReplacerBuilder.createStartTag();
+    String startTag = xmlReplacerBuilder.createStartTag();
 
-		assertThat(startTag).isEqualTo("<elem>");
-	}
+    assertThat(startTag).isEqualTo("<elem>");
+  }
 
-	@Test
-	void testCreateStartTagWithAttributeWithoutNamespace() throws Exception {
-		XmlReplacerBuilderForTest xmlReplacerBuilder = new XmlReplacerBuilderForTest()
-			.withElementName("elem")
-			.withAttribute("attr", "val");
+  @Test
+  void testCreateStartTagWithAttributeWithoutNamespace() throws Exception {
+    XmlReplacerBuilderForTest xmlReplacerBuilder =
+        new XmlReplacerBuilderForTest().withElementName("elem").withAttribute("attr", "val");
 
-		String startTag = xmlReplacerBuilder.createStartTag();
+    String startTag = xmlReplacerBuilder.createStartTag();
 
-		assertThat(startTag).isEqualTo("<elem attr=\"val\">");
-	}
+    assertThat(startTag).isEqualTo("<elem attr=\"val\">");
+  }
 
-	@Test
-	void testCreateStartTagWithAttributeAndNamespace() throws Exception {
-		XmlReplacerBuilderForTest xmlReplacerBuilder = new XmlReplacerBuilderForTest()
-			.withNamespace("ns")
-			.withElementName("elem")
-			.withAttribute("attr", "val");
+  @Test
+  void testCreateStartTagWithAttributeAndNamespace() throws Exception {
+    XmlReplacerBuilderForTest xmlReplacerBuilder =
+        new XmlReplacerBuilderForTest()
+            .withNamespace("ns")
+            .withElementName("elem")
+            .withAttribute("attr", "val");
 
-		String startTag = xmlReplacerBuilder.createStartTag();
+    String startTag = xmlReplacerBuilder.createStartTag();
 
-		assertThat(startTag).isEqualTo("<ns:elem attr=\"val\">");
-	}
+    assertThat(startTag).isEqualTo("<ns:elem attr=\"val\">");
+  }
 
-	@Test
-	void testCreateStartTagWithMultipleAttributesAndNamespace() throws Exception {
-		XmlReplacerBuilderForTest xmlReplacerBuilder = new XmlReplacerBuilderForTest()
-			.withNamespace("ns")
-			.withElementName("elem")
-			.withAttribute("firstAttr", "firstVal")
-			.withAttribute("secondAttr", "secondVal");
+  @Test
+  void testCreateStartTagWithMultipleAttributesAndNamespace() throws Exception {
+    XmlReplacerBuilderForTest xmlReplacerBuilder =
+        new XmlReplacerBuilderForTest()
+            .withNamespace("ns")
+            .withElementName("elem")
+            .withAttribute("firstAttr", "firstVal")
+            .withAttribute("secondAttr", "secondVal");
 
-		String startTag = xmlReplacerBuilder.createStartTag();
+    String startTag = xmlReplacerBuilder.createStartTag();
 
-		assertThat(startTag).isEqualTo("<ns:elem firstAttr=\"firstVal\" secondAttr=\"secondVal\">");
-	}
-
+    assertThat(startTag).isEqualTo("<ns:elem firstAttr=\"firstVal\" secondAttr=\"secondVal\">");
+  }
 }

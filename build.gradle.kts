@@ -2,6 +2,7 @@ plugins {
     `java-library`
     `maven-publish`
     signing
+    id("com.diffplug.spotless") version "latest.release"
 }
 
 repositories {
@@ -96,8 +97,24 @@ publishing {
         maven {
             url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2")
             credentials {
-                username = if (project.hasProperty("nexusUsername")) project.property("nexusUsername").toString() else System.getenv("NEXUS_USERNAME")
-                password = if (project.hasProperty("nexusPassword")) project.property("nexusPassword").toString() else System.getenv("NEXUS_PASSWORD")
+                username =
+                    if (project.hasProperty(
+                            "nexusUsername",
+                        )
+                    ) {
+                        project.property("nexusUsername").toString()
+                    } else {
+                        System.getenv("NEXUS_USERNAME")
+                    }
+                password =
+                    if (project.hasProperty(
+                            "nexusPassword",
+                        )
+                    ) {
+                        project.property("nexusPassword").toString()
+                    } else {
+                        System.getenv("NEXUS_PASSWORD")
+                    }
             }
         }
     }
@@ -105,6 +122,20 @@ publishing {
 
 signing {
     sign(publishing.publications["mavenJava"])
+}
+
+spotless {
+    java {
+        googleJavaFormat()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    kotlinGradle {
+        ktlint()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
 }
 
 tasks.wrapper {

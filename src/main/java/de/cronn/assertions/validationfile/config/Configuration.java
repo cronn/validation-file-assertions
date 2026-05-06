@@ -4,6 +4,5 @@ import java.nio.file.Path;
 
 public interface Configuration {
 
-	Path getDataDirectory();
-
+  Path getDataDirectory();
 }
