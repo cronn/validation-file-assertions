@@ -24,11 +24,12 @@ tasks.withType<JavaCompile> {
 }
 
 dependencies {
-    "junit5SupportImplementation"("org.junit.jupiter:junit-jupiter-api:latest.release")
+    "junit5SupportImplementation"("org.junit.jupiter:junit-jupiter-api:[5.0,6.0)")
     api("com.googlecode.java-diff-utils:diffutils:latest.release")
     api("org.opentest4j:opentest4j:latest.release")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:latest.release")
+    testImplementation("org.junit.jupiter:junit-jupiter:[5.0,6.0)")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.assertj:assertj-core:latest.release")
     testImplementation("com.fasterxml.jackson.core:jackson-databind")
     testImplementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")

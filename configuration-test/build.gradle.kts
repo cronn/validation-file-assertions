@@ -23,8 +23,15 @@ repositories {
 dependencies {
     implementation(project(":"))
 
-    testImplementation("org.junit.jupiter:junit-jupiter:latest.release")
+    testImplementation("org.junit.jupiter:junit-jupiter:[5.0,6.0)")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.assertj:assertj-core:latest.release")
+
+    components.all {
+        if (id.version.matches(Regex("(?i).+[-.](CANDIDATE|RC|BETA|ALPHA|M\\d+).*"))) {
+            status = "milestone"
+        }
+    }
 }
 
 tasks.test {
