@@ -4,6 +4,13 @@ import static java.time.format.DateTimeFormatter.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Test;
@@ -85,6 +92,42 @@ class DateTimeReplacerTest {
 			"<dateTime2>2017-09-04T15:39:31.31+02:00</dateTime2> <someThing>bar</someThing>";
 
 		assertThat(actual).isEqualTo(expected);
+	}
+
+	@Test
+	void testNormalizeIsThreadSafe() throws Exception {
+		DateTimeReplacer dateTimeReplacer = new DateTimeReplacer(Pattern.compile("(?<DateTime>.+)"),
+			ISO_OFFSET_DATE_TIME, ISO_LOCAL_DATE);
+
+		String[] inputs = { "2017-09-04T15:39:31.31+02:00", "2020-12-25T10:00:00.00+02:00" };
+		String[] expectedOutputs = { "2017-09-04", "2020-12-25" };
+
+		int threadCount = 50;
+		CountDownLatch startLatch = new CountDownLatch(1);
+		ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+		List<Future<Boolean>> futures = new ArrayList<>();
+
+		for (int i = 0; i < threadCount; i++) {
+			String input = inputs[i % 2];
+			String expected = expectedOutputs[i % 2];
+			futures.add(executor.submit(() -> {
+				startLatch.await();
+				for (int j = 0; j < 500; j++) {
+					if (!expected.equals(dateTimeReplacer.normalize(input))) {
+						return false;
+					}
+				}
+				return true;
+			}));
+		}
+
+		startLatch.countDown();
+		executor.shutdown();
+		executor.awaitTermination(30, TimeUnit.SECONDS);
+
+		for (Future<Boolean> future : futures) {
+			assertThat(future.get()).isTrue();
+		}
 	}
 
 	@Test
