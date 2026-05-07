@@ -14,10 +14,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
     withSourcesJar()
     withJavadocJar()
-
-    registerFeature("junit5Support") {
-        usingSourceSet(sourceSets["main"])
-    }
 }
 
 tasks.withType<JavaCompile> {
@@ -25,7 +21,7 @@ tasks.withType<JavaCompile> {
 }
 
 dependencies {
-    "junit5SupportImplementation"("org.junit.jupiter:junit-jupiter-api:[5.0,6.0)")
+    compileOnly("org.junit.jupiter:junit-jupiter-api:[5.0,6.0)")
     api("com.googlecode.java-diff-utils:diffutils:latest.release")
     api("org.opentest4j:opentest4j:latest.release")
 
@@ -139,7 +135,7 @@ spotless {
 }
 
 tasks.wrapper {
-    gradleVersion = "8.10.2"
+    gradleVersion = "9.5.0"
     distributionType = Wrapper.DistributionType.ALL
 }
 
