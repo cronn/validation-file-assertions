@@ -1,8 +1,18 @@
+buildscript {
+    configurations.classpath {
+        resolutionStrategy {
+            // Fix https://github.com/jreleaser/jreleaser/issues/1643
+            force("org.eclipse.jgit:org.eclipse.jgit:5.13.0.202109080827-r")
+        }
+    }
+}
+
 plugins {
     `java-library`
     `maven-publish`
     signing
     id("com.diffplug.spotless") version "latest.release"
+    id("org.jreleaser") version "1.24.0"
 }
 
 repositories {
@@ -48,7 +58,7 @@ tasks.javadoc {
 }
 
 group = "de.cronn"
-version = System.getenv("ARTIFACT_VERSION") ?: "SNAPSHOT"
+version = System.getenv("ARTIFACT_VERSION") ?: "1.0.0-SNAPSHOT"
 
 publishing {
     publications {
@@ -91,33 +101,28 @@ publishing {
     }
     repositories {
         maven {
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2")
-            credentials {
-                username =
-                    if (project.hasProperty(
-                            "nexusUsername",
-                        )
-                    ) {
-                        project.property("nexusUsername").toString()
-                    } else {
-                        System.getenv("NEXUS_USERNAME")
-                    }
-                password =
-                    if (project.hasProperty(
-                            "nexusPassword",
-                        )
-                    ) {
-                        project.property("nexusPassword").toString()
-                    } else {
-                        System.getenv("NEXUS_PASSWORD")
-                    }
-            }
+            url = uri(layout.buildDirectory.dir("staging-deploy"))
         }
     }
 }
 
 signing {
     sign(publishing.publications["mavenJava"])
+}
+
+jreleaser {
+    deploy {
+        maven {
+            mavenCentral {
+                create("sonatype") {
+                    sign = false
+                    setActive("RELEASE")
+                    url = "https://central.sonatype.com/api/v1/publisher"
+                    stagingRepository("build/staging-deploy")
+                }
+            }
+        }
+    }
 }
 
 spotless {
