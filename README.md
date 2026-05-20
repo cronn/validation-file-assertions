@@ -10,7 +10,7 @@
 Let’s consider the following test:
 
 ```java
-import de.cronn.validationfile.junit5.JUnit5ValidationFileAssertions;
+import de.cronn.assertions.validationfile.junit5.JUnit5ValidationFileAssertions;
 
 class MyTest implements JUnit5ValidationFileAssertions {
     @Test
@@ -89,7 +89,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 
-import de.cronn.validationfile.junit5.JUnit5ValidationFileAssertions;
+import de.cronn.assertions.validationfile.junit5.JUnit5ValidationFileAssertions;
 
 @ExtendWith(SoftAssertionsExtension.class)
 class MyTest implements JUnit5ValidationFileAssertions {
