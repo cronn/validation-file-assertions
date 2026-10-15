@@ -22,7 +22,12 @@ public class MarkdownTable {
   }
 
   public void addCell(Object value) {
-    currentRow.add(Objects.toString(value));
+    currentRow.add(escape(Objects.toString(value)));
+  }
+
+  // an unescaped pipe or line break would end the cell or the row
+  private static String escape(String value) {
+    return value.replace("|", "\\|").replace("\r\n", "<br>").replace("\n", "<br>");
   }
 
   public void addCells(Collection<? extends Object> values) {
@@ -98,10 +103,11 @@ public class MarkdownTable {
   }
 
   private List<Integer> computeColumnsWidths() {
-    List<Integer> widths = header.stream().map(String::length).collect(Collectors.toList());
+    List<Integer> widths =
+        header.stream().map(MarkdownTable::displayWidth).collect(Collectors.toList());
     for (int i = 0; i < header.size(); i++) {
       for (List<String> row : rows) {
-        widths.set(i, Math.max(row.get(i).length(), widths.get(i)));
+        widths.set(i, Math.max(displayWidth(row.get(i)), widths.get(i)));
       }
     }
     return widths;
@@ -116,7 +122,50 @@ public class MarkdownTable {
   private void pad(String value, int size, StringBuilder sb) {
     sb.append(' ');
     sb.append(value);
-    repeat(' ', size - value.length(), sb);
+    repeat(' ', size - displayWidth(value), sb);
     sb.append(' ');
+  }
+
+  /**
+   * Number of columns the value occupies in a monospace font: East Asian wide characters and emoji
+   * take two columns, combining marks and format characters (such as the zero width joiner) none.
+   */
+  static int displayWidth(String value) {
+    int width = 0;
+    int i = 0;
+    while (i < value.length()) {
+      int codePoint = value.codePointAt(i);
+      i += Character.charCount(codePoint);
+      if (isZeroWidth(codePoint)) {
+        continue;
+      }
+      boolean emojiPresentation =
+          i < value.length() && value.charAt(i) == EMOJI_PRESENTATION_SELECTOR;
+      width += isWide(codePoint) || emojiPresentation ? 2 : 1;
+    }
+    return width;
+  }
+
+  private static final char EMOJI_PRESENTATION_SELECTOR = '\uFE0F';
+
+  private static boolean isZeroWidth(int codePoint) {
+    int type = Character.getType(codePoint);
+    return type == Character.NON_SPACING_MARK
+        || type == Character.ENCLOSING_MARK
+        || type == Character.FORMAT;
+  }
+
+  // approximates East_Asian_Width W and F, which the JDK does not provide
+  private static boolean isWide(int codePoint) {
+    if (Character.isEmojiPresentation(codePoint)) {
+      return true;
+    }
+    return switch (Character.UnicodeScript.of(codePoint)) {
+      case HAN, HIRAGANA, KATAKANA, HANGUL, BOPOMOFO, YI -> true;
+      default ->
+          Character.UnicodeBlock.of(codePoint) == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+              || (codePoint >= 0xFF01 && codePoint <= 0xFF60) // fullwidth forms
+              || (codePoint >= 0xFFE0 && codePoint <= 0xFFE6);
+    };
   }
 }
