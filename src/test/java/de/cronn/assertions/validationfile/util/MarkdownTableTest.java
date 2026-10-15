@@ -46,4 +46,23 @@ class MarkdownTableTest implements JUnit5ValidationFileAssertions {
                 + "| Countrywide Powdered Coatings Ltd |\n"
                 + "| Craft Textiles Ltd                |");
   }
+
+  @Test
+  void shouldPadCellsContainingWideCharacters() {
+    MarkdownTable markdownTable = new MarkdownTable(List.of("location", "correct"));
+    markdownTable.addRow("Sanku Maots'ai 三顾冒菜", "✅");
+    markdownTable.addRow("Café", "❌");
+    markdownTable.addRow("Cafe\u0301", "❤\uFE0F");
+
+    assertWithFile(markdownTable.toString(), FileExtensions.MD);
+  }
+
+  @Test
+  void shouldRenderCellsContainingPipesAndLineBreaks() {
+    MarkdownTable markdownTable = new MarkdownTable(List.of("text"));
+    markdownTable.addRow("Maotsai 31.9/kg | 0.392 kg");
+    markdownTable.addRow("first line\nsecond line");
+
+    assertWithFile(markdownTable.toString(), FileExtensions.MD);
+  }
 }
