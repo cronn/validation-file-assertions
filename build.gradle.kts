@@ -1,8 +1,9 @@
 buildscript {
     configurations.classpath {
         resolutionStrategy {
+            // JGit 7.x removed GpgObjectSigner which JReleaser still depends on
             // Fix https://github.com/jreleaser/jreleaser/issues/1643
-            force("org.eclipse.jgit:org.eclipse.jgit:5.13.0.202109080827-r")
+            force("org.eclipse.jgit:org.eclipse.jgit:6.10.0.202406032230-r")
         }
     }
 }
@@ -12,7 +13,7 @@ plugins {
     `maven-publish`
     signing
     id("com.diffplug.spotless") version "latest.release"
-    id("org.jreleaser") version "1.24.0"
+    id("org.jreleaser") version "1.26.0"
 }
 
 repositories {
