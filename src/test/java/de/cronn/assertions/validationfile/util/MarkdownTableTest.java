@@ -65,4 +65,17 @@ class MarkdownTableTest implements JUnit5ValidationFileAssertions {
 
     assertWithFile(markdownTable.toString(), FileExtensions.MD);
   }
+
+  @Test
+  void shouldComputeDisplayWidth() {
+    assertThat(MarkdownTable.displayWidth("abc")).isEqualTo(3);
+    assertThat(MarkdownTable.displayWidth("三顾冒菜")).isEqualTo(8);
+    assertThat(MarkdownTable.displayWidth("ＡＢ")).isEqualTo(4);
+    assertThat(MarkdownTable.displayWidth("한국어")).isEqualTo(6);
+    assertThat(MarkdownTable.displayWidth("✅❌")).isEqualTo(4);
+    assertThat(MarkdownTable.displayWidth("😀")).isEqualTo(2);
+    assertThat(MarkdownTable.displayWidth("✓✗")).isEqualTo(2);
+    assertThat(MarkdownTable.displayWidth("e\u0301")).isEqualTo(1);
+    assertThat(MarkdownTable.displayWidth("❤\uFE0F")).isEqualTo(2);
+  }
 }
