@@ -25,17 +25,17 @@ When we run this test for the first time, it will create the following files:
    ```
    actual value
    ```
- - `data/test/validation/MyTest_myTestMethod.txt` (this one is prefilled automatically once during the first test run; on consecutive runs it will not be modified automatically) containing
+ - `data/test/validation/MyTest_myTestMethod.txt` (this one is prefilled automatically once during the first test run; on subsequent runs it will not be modified automatically) containing
    ```
    === new file "data/test/validation/MyTest_myTestMethod.txt" ===
    actual value
    ```
 
-The test will fail as long as these two files are different. It’s the developer’s job to manually review the content of the `validation` file and remove the "new file" marker to make the test passing.
+The test will fail as long as these two files are different. It’s the developer’s job to manually review the content of the `validation` file and remove the "new file" marker to make the test pass.
 The reviewed validation file is then committed to the SCM repository together with the test itself.
-Starting from this point `validation` file is the expected value of the test.
+Starting from this point, the `validation` file is the expected value of the test.
 
-Any change to `"actual value"` will cause the test to fail and in this case the developer has to compare the content of `output` file with `validation` and if satisfied copy `output` to `validation` - this makes the test green.
+Any change to `"actual value"` will cause the test to fail and in this case the developer has to compare the content of the `output` file with the `validation` file and if satisfied copy `output` to `validation` - this makes the test green.
 
 We recommend using a good diffing tool, such as the built-in differ of IntelliJ or [Meld][meld], that allows you to diff the two directories `data/test/actual` vs `data/test/validation`.
 We also provide an [IntelliJ plugin][intellij_plugin] that diffs the two directories with one shortcut.
@@ -68,15 +68,15 @@ testImplementation 'de.cronn:validation-file-assertions:{version}'
 
 * Let your test class implement the `JUnit5ValidationFileAssertions` interface if you are using JUnit5, otherwise use `ValidationFileAssertions`
 
-* Pick suitable `assertWithFile` method and enjoy your first validation file assertion.
+* Pick a suitable `assertWithFile` method and enjoy your first validation file assertion.
 
 ## Custom validation files directory
 
-It is possible to customize path where validation files are stored, in order to do that:
+It is possible to customize the path where validation files are stored, in order to do that:
 
-* Implement `de.cronn.assertions.validationfile.config.Configure` and override method `getDataDirectory()` with path to desired location.
+* Implement `de.cronn.assertions.validationfile.config.Configure` and override the method `getDataDirectory()` with path to desired location.
 
-* Register implemented configuration via Java Service Provider interface (namely: put fully qualified configuration class name in `resources/META-INF/services/de.cronn.assertions.validationfile.config.Configuration`)
+* Register the implemented configuration via Java Service Provider interface (namely: put fully qualified configuration class name in `resources/META-INF/services/de.cronn.assertions.validationfile.config.Configuration`)
 
 ## Soft Assertions
 
@@ -112,7 +112,7 @@ class MyTest implements JUnit5ValidationFileAssertions {
 
 ## See also
 
-* [Intellij plugin for validation file comparison][intellij_plugin]
+* [IntelliJ plugin for validation file comparison][intellij_plugin]
 * [File snapshots for Playwright and Vitest][frontend_file_snapshots]
 
 [meld]: https://meldmerge.org/
