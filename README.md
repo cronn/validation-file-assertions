@@ -37,7 +37,7 @@ Starting from this point, the `validation` file is the expected value of the tes
 
 Any change to `"actual value"` will cause the test to fail and in this case the developer has to compare the content of the `output` file with the `validation` file and if satisfied copy `output` to `validation` - this makes the test green.
 
-We recommend using a good diffing tool, such as the built-in differ of IntelliJ or [Meld][meld], that allows you to diff the two directories `data/test/actual` vs `data/test/validation`.
+We recommend using a good diffing tool, such as the built-in differ of IntelliJ or [Meld][meld], that allows you to diff the two directories `data/test/output` vs `data/test/validation`.
 We also provide an [IntelliJ plugin][intellij_plugin] that diffs the two directories with one shortcut.
 
 ## Quickstart
@@ -74,7 +74,7 @@ testImplementation 'de.cronn:validation-file-assertions:{version}'
 
 It is possible to customize the path where validation files are stored, in order to do that:
 
-* Implement `de.cronn.assertions.validationfile.config.Configure` and override the method `getDataDirectory()` with path to desired location.
+* Implement `de.cronn.assertions.validationfile.config.Configuration` and override the method `getDataDirectory()` with path to desired location.
 
 * Register the implemented configuration via Java Service Provider interface (namely: put fully qualified configuration class name in `resources/META-INF/services/de.cronn.assertions.validationfile.config.Configuration`)
 
