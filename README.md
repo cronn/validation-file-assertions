@@ -98,6 +98,23 @@ It is possible to customize the path where validation files are stored, in order
 
 * Register the implemented configuration via Java Service Provider interface (namely: put fully qualified configuration class name in `resources/META-INF/services/de.cronn.assertions.validationfile.config.Configuration`)
 
+## Normalization
+
+Validation files only work with deterministic output (see also our [stance on determinism](https://github.com/cronn#determinism)).
+Where possible, make the output itself deterministic, for example by using ordered collections and a fixed clock, locale and time zone.
+Values that are random by nature, such as generated UUIDs, can be replaced by stable placeholders using a `ValidationNormalizer`:
+
+```java
+assertWithJsonFile(json, new UuidNormalizer());
+```
+
+```json
+{"id": "UUID_1", "parentId": "UUID_1", "otherId": "UUID_2"}
+```
+
+Equal UUIDs get the same placeholder, so references between them remain visible.
+See the `normalization` and `replacements` packages for further normalizers, such as `IdNormalizer`, `SimpleRegexReplacement` and `JsonReplacerBuilder`.
+
 ## Soft Assertions
 
 File based validation can be combined with [AssertJ’s soft assertions][assertj_soft_assertions].
