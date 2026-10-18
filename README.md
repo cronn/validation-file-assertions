@@ -70,6 +70,26 @@ testImplementation 'de.cronn:validation-file-assertions:{version}'
 
 * Pick a suitable `assertWithFile` method and enjoy your first validation file assertion.
 
+## Gradle integration
+
+Declare the validation files as inputs and the output files as outputs of the `test` task.
+Otherwise, Gradle considers the task up-to-date after a validation file was changed.
+`PathSensitivity.RELATIVE` keeps the build cache reusable across different checkout locations.
+
+```kotlin
+tasks.test {
+    inputs.files("data/test/validation").withPathSensitivity(PathSensitivity.RELATIVE)
+    outputs.dir("data/test/output")
+    outputs.dir("data/test/tmp")
+}
+
+tasks.clean {
+    delete("data/test/output", "data/test/tmp")
+}
+```
+
+We also recommend excluding `data/test/output` and `data/test/tmp` in IntelliJ (e.g. via `idea.module.excludeDirs` of the Gradle `idea` plugin), so that their content is not indexed and doesn’t show up in search results.
+
 ## Custom validation files directory
 
 It is possible to customize the path where validation files are stored, in order to do that:
