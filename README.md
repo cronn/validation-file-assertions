@@ -130,6 +130,24 @@ class MyTest implements JUnit5ValidationFileAssertions {
 }
 ```
 
+## Markdown tables
+
+Tabular data is easiest to review as a table. `MarkdownTable` renders rows as an aligned Markdown table:
+
+```java
+MarkdownTable table = new MarkdownTable(List.of("Name", "Price"));
+table.addRow("Coffee", 2.5);
+table.addRow("Croissant", 1.9);
+assertWithFile(table.toString(), FileExtensions.MD);
+```
+
+```
+| Name      | Price |
+|-----------|-------|
+| Coffee    | 2.5   |
+| Croissant | 1.9   |
+```
+
 ## See also
 
 * [IntelliJ plugin for validation file comparison][intellij_plugin]
