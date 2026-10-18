@@ -40,35 +40,35 @@ Any change to `"actual value"` will cause the test to fail and in this case the 
 We recommend using a good diffing tool, such as the built-in differ of IntelliJ or [Meld][meld], that allows you to diff the two directories `data/test/output` vs `data/test/validation`.
 We also provide an [IntelliJ plugin][intellij_plugin] that diffs the two directories with one shortcut.
 
-## Quickstart
-* Add the dependency
+## Getting started
 
-### Gradle
-```gradle
-testImplementation 'de.cronn:validation-file-assertions:{version}'
-```
+1. Add the dependency
 
-### Maven
-```xml
-<dependency>
-    <groupId>de.cronn</groupId>
-    <artifactId>validation-file-assertions</artifactId>
-    <version>{version}</version>
-    <scope>test</scope>
-</dependency>
-```
+   **Gradle (Kotlin DSL)**
+   ```kotlin
+   testImplementation("de.cronn:validation-file-assertions:{version}")
+   ```
 
-* Configure your SCM
+   **Maven**
+   ```xml
+   <dependency>
+       <groupId>de.cronn</groupId>
+       <artifactId>validation-file-assertions</artifactId>
+       <version>{version}</version>
+       <scope>test</scope>
+   </dependency>
+   ```
 
-    `.gitignore`
-    ```
-    data/test/output/
-    data/test/tmp/
-    ```
+2. Exclude the output files from your SCM, e.g. in `.gitignore`
 
-* Let your test class implement the `JUnit5ValidationFileAssertions` interface if you are using JUnit5, otherwise use `ValidationFileAssertions`
+   ```
+   data/test/output/
+   data/test/tmp/
+   ```
 
-* Pick a suitable `assertWithFile` method and enjoy your first validation file assertion.
+3. Let your test class implement the `JUnit5ValidationFileAssertions` interface if you are using JUnit5, otherwise use `ValidationFileAssertions`
+
+4. Pick a suitable `assertWithFile` method and enjoy your first validation file assertion.
 
 ## Gradle integration
 
