@@ -12,7 +12,7 @@ plugins {
     `java-library`
     `maven-publish`
     signing
-    id("com.diffplug.spotless") version "latest.release"
+    id("com.diffplug.spotless") version "8.11.0"
     id("org.jreleaser") version "1.26.0"
 }
 

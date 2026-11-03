@@ -54,10 +54,9 @@ class FileBasedComparisonUtilsTest {
 
     // When
     Throwable error =
-        catchThrowable(
-            () ->
-                FileBasedComparisonUtils.compareActualWithFileHidden(
-                    "text\nextra line", "file.txt", null));
+        catchThrowable(() ->
+            FileBasedComparisonUtils.compareActualWithFileHidden(
+                "text\nextra line", "file.txt", null));
 
     // Then
     assertThat(error)
@@ -75,20 +74,18 @@ class FileBasedComparisonUtilsTest {
   void testCopyingOutputFileToValidationPath_fixesError() throws Throwable {
     // Given
     createPrefilledValidationFile("text", "file.txt");
-    assertThatThrownBy(
-            () ->
-                FileBasedComparisonUtils.compareActualWithFileHidden(
-                    "text\nextra line", "file.txt", null))
+    assertThatThrownBy(() ->
+            FileBasedComparisonUtils.compareActualWithFileHidden(
+                "text\nextra line", "file.txt", null))
         .isInstanceOf(FileBasedComparisonFailure.class);
 
     // When
     helper.copyOutputToValidation("file.txt");
 
     // Then
-    assertThatCode(
-            () ->
-                FileBasedComparisonUtils.compareActualWithFileHidden(
-                    "text\nextra line", "file.txt", null))
+    assertThatCode(() ->
+            FileBasedComparisonUtils.compareActualWithFileHidden(
+                "text\nextra line", "file.txt", null))
         .doesNotThrowAnyException();
     assertThat(helper.linesDiffOutputValidation("file.txt")).isEmpty();
   }

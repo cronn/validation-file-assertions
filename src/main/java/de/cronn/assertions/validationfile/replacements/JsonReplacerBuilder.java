@@ -31,7 +31,7 @@ public class JsonReplacerBuilder extends AbstractJsonReplacer<JsonReplacerBuilde
   /**
    * @deprecated use withStringValue instead
    */
-  @Deprecated()
+  @Deprecated
   public JsonReplacerBuilder withValue(String value) {
     this.valueToReplace = "\"" + value + "\"";
     return this;

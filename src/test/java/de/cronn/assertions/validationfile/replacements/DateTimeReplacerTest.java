@@ -124,16 +124,15 @@ class DateTimeReplacerTest {
       String input = inputs[i % 2];
       String expected = expectedOutputs[i % 2];
       futures.add(
-          executor.submit(
-              () -> {
-                startLatch.await();
-                for (int j = 0; j < 500; j++) {
-                  if (!expected.equals(dateTimeReplacer.normalize(input))) {
-                    return false;
-                  }
-                }
-                return true;
-              }));
+          executor.submit(() -> {
+            startLatch.await();
+            for (int j = 0; j < 500; j++) {
+              if (!expected.equals(dateTimeReplacer.normalize(input))) {
+                return false;
+              }
+            }
+            return true;
+          }));
     }
 
     startLatch.countDown();
