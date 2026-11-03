@@ -27,12 +27,10 @@ public interface ValidationFileAssertions {
       String actualOutput, String filename, ValidationNormalizer normalizer) {
     FailedAssertionHandler failedAssertionsCollector = failedAssertionHandler();
     if (failedAssertionsCollector != null) {
-      failedAssertionsCollector.executeAndHandleFailedAssertion(
-          () -> {
-            FileBasedComparisonUtils.compareActualWithFileHidden(
-                actualOutput, filename, normalizer);
-            return null;
-          });
+      failedAssertionsCollector.executeAndHandleFailedAssertion(() -> {
+        FileBasedComparisonUtils.compareActualWithFileHidden(actualOutput, filename, normalizer);
+        return null;
+      });
     } else {
       FileBasedComparisonUtils.compareActualWithFileHidden(actualOutput, filename, normalizer);
     }
