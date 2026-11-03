@@ -68,11 +68,34 @@ We also provide an [IntelliJ plugin][intellij_plugin] that diffs the two directo
    data/test/tmp/
    ```
 
-3. Let your test class implement the `JUnit5ValidationFileAssertions` interface if you are using JUnit5, otherwise use `ValidationFileAssertions`
+3. Optional, with Gradle: apply the [Gradle plugin](#gradle-integration)
 
-4. Pick a suitable `assertWithFile` method and enjoy your first validation file assertion.
+4. Let your test class implement the `JUnit5ValidationFileAssertions` interface if you are using JUnit5, otherwise use `ValidationFileAssertions`
+
+5. Pick a suitable `assertWithFile` method and enjoy your first validation file assertion.
 
 ## Gradle integration
+
+The [validation files Gradle plugin][gradle_validation_files_plugin] integrates validation files into the Gradle build:
+
+```kotlin
+plugins {
+    id("de.cronn.validation-files") version "{plugin-version}"
+}
+```
+
+The current `{plugin-version}` is listed on the [Gradle Plugin Portal][gradle_validation_files_plugin_portal].
+
+* Changing a validation file reruns the tests, and the build cache stays reusable across checkout locations.
+* `clean` deletes `data/test/output` and `data/test/tmp`.
+* `check` fails for validation files that no test wrote anymore, e.g. after a test was renamed or removed.
+  `deleteUnusedValidationFiles` deletes them.
+* IntelliJ excludes `data/test/output` and `data/test/tmp`, so that their content is not indexed and doesn’t show up in search results.
+
+See the [plugin’s README][gradle_validation_files_plugin] for the configuration, e.g. for frontend tests with [file-snapshots][frontend_file_snapshots].
+
+<details>
+<summary>Without the plugin</summary>
 
 Declare the validation files as inputs and the output files as outputs of the `test` task.
 Otherwise, Gradle considers the task up-to-date after a validation file was changed.
@@ -92,6 +115,8 @@ tasks.clean {
 
 We also recommend excluding `data/test/output` and `data/test/tmp` in IntelliJ (e.g. via `idea.module.excludeDirs` of the Gradle `idea` plugin), so that their content is not indexed and doesn’t show up in search results.
 
+</details>
+
 ## Custom validation files directory
 
 It is possible to customize the path where validation files are stored, in order to do that:
@@ -99,6 +124,8 @@ It is possible to customize the path where validation files are stored, in order
 * Implement `de.cronn.assertions.validationfile.config.Configuration` and override the method `getDataDirectory()` with path to desired location.
 
 * Register the implemented configuration via Java Service Provider interface (namely: put fully qualified configuration class name in `resources/META-INF/services/de.cronn.assertions.validationfile.config.Configuration`)
+
+The [Gradle plugin][gradle_validation_files_plugin] does not support a custom directory yet and expects the validation files below `data/test`.
 
 ## Normalization
 
@@ -170,9 +197,12 @@ assertWithFile(table.toString(), FileExtensions.MD);
 ## See also
 
 * [IntelliJ plugin for validation file comparison][intellij_plugin]
+* [Gradle plugin for validation files][gradle_validation_files_plugin]
 * [File snapshots for Playwright and Vitest][frontend_file_snapshots]
 
 [meld]: https://meldmerge.org/
+[gradle_validation_files_plugin]: https://github.com/cronn/gradle-validation-files-plugin
+[gradle_validation_files_plugin_portal]: https://plugins.gradle.org/plugin/de.cronn.validation-files
 [intellij_plugin]: https://plugins.jetbrains.com/plugin/12931-validation-file-comparison
 [assertj_soft_assertions]: https://assertj.github.io/doc/#assertj-core-soft-assertions
 [frontend_file_snapshots]: https://github.com/cronn/file-snapshots
